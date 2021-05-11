@@ -40,7 +40,7 @@ public class AcademyTeacherController {
         return list;
     }
 
-    @ApiOperation(value = "根据ID逻辑删除")
+    @ApiOperation(value = "根据ID逻辑删除", notes = "逻辑删除数据记录")
     @DeleteMapping("{id}")
     public boolean removeById(
             @ApiParam(name = "id", value = "讲师ID", required = true)
