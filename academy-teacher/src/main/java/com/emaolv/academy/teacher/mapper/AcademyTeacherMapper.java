@@ -1,6 +1,6 @@
 package com.emaolv.academy.teacher.mapper;
 
-import com.emaolv.academy.teacher.entity.EduTeacher;
+import com.emaolv.academy.teacher.entity.AcademyTeacher;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Jia
  * @since 2021-05-11
  */
-public interface EduTeacherMapper extends BaseMapper<EduTeacher> {
+public interface AcademyTeacherMapper extends BaseMapper<AcademyTeacher> {
 
 }
