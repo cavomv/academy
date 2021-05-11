@@ -21,5 +21,7 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
-
+# Enable swagger
+springfox:
+  documentation:
+    enabled: true
