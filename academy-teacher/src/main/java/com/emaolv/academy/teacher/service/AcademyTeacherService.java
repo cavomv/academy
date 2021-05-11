@@ -1,6 +1,6 @@
 package com.emaolv.academy.teacher.service;
 
-import com.emaolv.academy.teacher.entity.EduTeacher;
+import com.emaolv.academy.teacher.entity.AcademyTeacher;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author Jia
  * @since 2021-05-11
  */
-public interface EduTeacherService extends IService<EduTeacher> {
+public interface AcademyTeacherService extends IService<AcademyTeacher> {
 
 }
