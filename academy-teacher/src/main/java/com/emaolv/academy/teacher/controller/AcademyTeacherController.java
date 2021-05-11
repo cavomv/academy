@@ -6,10 +6,7 @@ import com.emaolv.academy.teacher.mapper.AcademyTeacherMapper;
 import com.emaolv.academy.teacher.service.AcademyTeacherService;
 import com.emaolv.academy.teacher.service.impl.AcademyTeacherServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +33,13 @@ public class AcademyTeacherController {
         List<AcademyTeacher> list = academyTeacherService.list(null);
         list.forEach(System.out::println);
         return list;
+    }
+
+    // 根据ID逻辑删除
+    @DeleteMapping("{id}")
+    public boolean removeById(@PathVariable String id){
+        boolean result = academyTeacherService.removeById(id);
+        return result;
     }
 }
 
