@@ -1,6 +1,8 @@
 package com.emaolv.academy.teacher.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.emaolv.academy.common.result.R;
 import com.emaolv.academy.teacher.entity.AcademyTeacher;
 import com.emaolv.academy.teacher.mapper.AcademyTeacherMapper;
@@ -9,11 +11,14 @@ import com.emaolv.academy.teacher.service.impl.AcademyTeacherServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import jdk.nashorn.internal.ir.CallNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -53,6 +58,39 @@ public class AcademyTeacherController {
         else{
             return R.fail().message("删除失败");
         }
+    }
+
+    @ApiOperation(value = "新建讲师")
+    @PostMapping("/save")
+    public R save(
+            @ApiParam(value = "讲师对象", required = true)
+            @RequestBody AcademyTeacher academyTeacher){
+        boolean result = academyTeacherService.save(academyTeacher);
+        if(result){
+            return R.success().message("保存成功");
+        }
+        else{
+            return R.fail().message("保存失败");
+        }
+    }
+
+    @ApiOperation(value = "讲师分页查询")
+    @GetMapping("pageAcademyTeacher/{current}/{size}")
+    public R pageListTeacher(
+            @ApiParam(value = "当前页", required = true)
+            @PathVariable Long current,
+            @ApiParam(value ="每页记录数", required = true)
+            @PathVariable Long size
+    ){
+        // 创建Page对象
+        Page<AcademyTeacher> pageListTeacher = new Page<>(current,size);
+        // 调用方法实现分页
+        academyTeacherService.page(pageListTeacher, null);
+        // 总记录数
+        long total = pageListTeacher.getTotal();
+        // 每页记录数
+        List<AcademyTeacher> records = pageListTeacher.getRecords();
+        return R.success().data("total", total).data("rows", records);
     }
 }
 
