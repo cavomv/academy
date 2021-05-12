@@ -136,7 +136,7 @@ public class AcademyTeacherController {
 
     @ApiOperation(value ="根据讲师ID进行查询")
     @GetMapping("getInfo/{id}")
-    public R getInfoById(
+    public R getById(
             @ApiParam(value = "讲师ID", required = true)
             @PathVariable String id){
         AcademyTeacher academyTeacher = academyTeacherService.getById(id);
@@ -145,8 +145,15 @@ public class AcademyTeacherController {
 
     @ApiOperation(value ="修改讲师")
     @PostMapping("/update")
-    public R update(){
-        return R.success();
+    public R update(
+            @ApiParam(value = "讲师")
+            @RequestBody AcademyTeacher academyTeacher)
+    {
+        boolean flag = academyTeacherService.updateById(academyTeacher);
+        if(flag){
+            return R.success().message("更新成功");
+        }
+        return R.fail().message("更新失败");
     }
 
 }
