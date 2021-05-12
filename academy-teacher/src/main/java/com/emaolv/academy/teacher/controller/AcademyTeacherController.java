@@ -3,7 +3,9 @@ package com.emaolv.academy.teacher.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.emaolv.academy.common.exception.CustomizeException;
 import com.emaolv.academy.common.result.R;
+import com.emaolv.academy.common.result.ResponseEnum;
 import com.emaolv.academy.teacher.entity.AcademyTeacher;
 import com.emaolv.academy.teacher.entity.vo.AcademyTeacherQuery;
 import com.emaolv.academy.teacher.service.AcademyTeacherService;
@@ -52,8 +54,9 @@ public class AcademyTeacherController {
         if(result){
             return R.success().message("删除成功");
         }
-        else{
-            return R.fail().message("删除失败");
+        else {
+            // 重复删除记录会提示"该记录已删除" - 自定义异常
+            throw new CustomizeException(ResponseEnum.REMOVE_ERROR);
         }
     }
 
@@ -62,6 +65,7 @@ public class AcademyTeacherController {
     public R save(
             @ApiParam(value = "讲师对象", required = true)
             @RequestBody AcademyTeacher academyTeacher){
+
         boolean result = academyTeacherService.save(academyTeacher);
         if(result){
             return R.success().message("保存成功");
@@ -137,7 +141,7 @@ public class AcademyTeacherController {
     @ApiOperation(value ="根据讲师ID进行查询")
     @GetMapping("getInfo/{id}")
     public R getById(
-            @ApiParam(value = "讲师ID", required = true)
+            @ApiParam(value = "讲师ID")
             @PathVariable String id){
         AcademyTeacher academyTeacher = academyTeacherService.getById(id);
         return R.success().data("teacher",academyTeacher);
