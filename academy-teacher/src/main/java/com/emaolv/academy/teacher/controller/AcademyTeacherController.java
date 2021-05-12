@@ -1,10 +1,13 @@
 package com.emaolv.academy.teacher.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.handlers.GsonTypeHandler;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.emaolv.academy.common.result.R;
 import com.emaolv.academy.teacher.entity.AcademyTeacher;
+import com.emaolv.academy.teacher.entity.vo.AcademyTeacherQuery;
 import com.emaolv.academy.teacher.mapper.AcademyTeacherMapper;
 import com.emaolv.academy.teacher.service.AcademyTeacherService;
 import com.emaolv.academy.teacher.service.impl.AcademyTeacherServiceImpl;
@@ -12,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import jdk.nashorn.internal.ir.CallNode;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.oas.annotations.EnableOpenApi;
@@ -90,6 +94,50 @@ public class AcademyTeacherController {
         long total = pageListTeacher.getTotal();
         // 每页记录数
         List<AcademyTeacher> records = pageListTeacher.getRecords();
+        return R.success().data("total", total).data("rows", records);
+    }
+
+    @ApiOperation(value = "条件查询带分页的方法")
+    @GetMapping("pageAcademyTeacherWithCondition/{current}/{size}")
+    public R pageListTeacherWithCondition(
+            @ApiParam(value = "当前页", required = true)
+            @PathVariable Long current,
+            @ApiParam(value ="每页记录数", required = true)
+            @PathVariable Long size,
+            AcademyTeacherQuery academyTeacherQuery
+    )
+    {
+        // 创建page对象
+        Page<AcademyTeacher> pageListTeacherWithCondition = new Page<>(current, size);
+        // 构建条件
+        QueryWrapper<AcademyTeacher> queryWrapper = new QueryWrapper<>();
+        // 查询的条件
+        String name = academyTeacherQuery.getName();
+        Integer level = academyTeacherQuery.getLevel();
+        String begin = academyTeacherQuery.getBegin();
+        String end = academyTeacherQuery.getEnd();
+        // 判断条件值是否为空 如果不为可空拼接条件
+        if(!StringUtils.isEmpty(name)){
+            // 拼接条件
+            queryWrapper.like("name",name);
+        }
+        if(!(level == null)){
+            queryWrapper.like("level",level);
+        }
+        if(!StringUtils.isEmpty(begin)){
+            // 拼接条件
+            queryWrapper.ge("create_time",begin);
+        }
+        if(!StringUtils.isEmpty(end)){
+            // 拼接条件
+            queryWrapper.le("update_time",end);
+        }
+        // 实现条件查询分页功能
+        academyTeacherService.page(pageListTeacherWithCondition, queryWrapper);
+        // 总记录数
+        long total = pageListTeacherWithCondition.getTotal();
+        // 每页记录数
+        List<AcademyTeacher> records = pageListTeacherWithCondition.getRecords();
         return R.success().data("total", total).data("rows", records);
     }
 }
