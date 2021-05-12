@@ -2,27 +2,20 @@ package com.emaolv.academy.teacher.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.handlers.GsonTypeHandler;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.emaolv.academy.common.result.R;
 import com.emaolv.academy.teacher.entity.AcademyTeacher;
 import com.emaolv.academy.teacher.entity.vo.AcademyTeacherQuery;
-import com.emaolv.academy.teacher.mapper.AcademyTeacherMapper;
 import com.emaolv.academy.teacher.service.AcademyTeacherService;
-import com.emaolv.academy.teacher.service.impl.AcademyTeacherServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import jdk.nashorn.internal.ir.CallNode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -79,7 +72,7 @@ public class AcademyTeacherController {
     }
 
     @ApiOperation(value = "讲师分页查询")
-    @GetMapping("pageAcademyTeacher/{current}/{size}")
+    @GetMapping("page/{current}/{size}")
     public R pageListTeacher(
             @ApiParam(value = "当前页", required = true)
             @PathVariable Long current,
@@ -98,7 +91,7 @@ public class AcademyTeacherController {
     }
 
     @ApiOperation(value = "条件查询带分页的方法")
-    @GetMapping("pageAcademyTeacherWithCondition/{current}/{size}")
+    @GetMapping("pageWithCondition/{current}/{size}")
     public R pageListTeacherWithCondition(
             @ApiParam(value = "当前页", required = true)
             @PathVariable Long current,
@@ -140,5 +133,21 @@ public class AcademyTeacherController {
         List<AcademyTeacher> records = pageListTeacherWithCondition.getRecords();
         return R.success().data("total", total).data("rows", records);
     }
+
+    @ApiOperation(value ="根据讲师ID进行查询")
+    @GetMapping("getInfo/{id}")
+    public R getInfoById(
+            @ApiParam(value = "讲师ID", required = true)
+            @PathVariable String id){
+        AcademyTeacher academyTeacher = academyTeacherService.getById(id);
+        return R.success().data("teacher",academyTeacher);
+    }
+
+    @ApiOperation(value ="修改讲师")
+    @PostMapping("/update")
+    public R update(){
+        return R.success();
+    }
+
 }
 
