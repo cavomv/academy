@@ -25,3 +25,8 @@ mybatis-plus:
 springfox:
   documentation:
     enabled: true
+
+# 设置日志级别
+#logging:
+#  level:
+#    root: ERROR
