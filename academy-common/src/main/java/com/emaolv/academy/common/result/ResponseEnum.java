@@ -27,7 +27,6 @@ public enum ResponseEnum {
 
 
     //-2xx 参数校验
-    BORROW_AMOUNT_NULL_ERROR(-201, "借款额度不能为空"),
     MOBILE_NULL_ERROR(-202, "手机号码不能为空"),
     MOBILE_ERROR(-203, "手机号码不正确"),
     PASSWORD_NULL_ERROR(204, "密码不能为空"),
@@ -43,20 +42,16 @@ public enum ResponseEnum {
     USER_BIND_IDCARD_EXIST_ERROR(-301, "身份证号码已被其他账号绑定"),
     USER_NO_BIND_ERROR(302, "用户未绑定"),
     USER_NO_AMOUNT_ERROR(303, "用户信息未审核"),
-    USER_AMOUNT_LESS_ERROR(304, "您的借款额度不足"),
-    LEND_INVEST_ERROR(305, "当前状态无法投标"),
-    LEND_FULL_SCALE_ERROR(306, "已满标，无法投标"),
-    NOT_SUFFICIENT_FUNDS_ERROR(307, "余额不足"),
+    REMOVE_ERROR(304,"该记录已删除"),
+    ARITHMETIC_EXCEPTION_ERROR(305, "除数为整数时不能为0");
 
-    PAY_UNIFIEDORDER_ERROR(401, "统一下单错误"),
-
-    ALIYUN_RESPONSE_ERROR(-501, "阿里云短信服务响应失败"),
-    ALIYUN_SMS_LIMIT_CONTROL_ERROR(-502, "短信发送过于频繁"),//业务限流
-    ALIYUN_SMS_ERROR(-503, "短信发送失败"),//其他失败
-
-    WEIXIN_CALLBACK_PARAM_ERROR(-601, "回调参数不正确"),
-    WEIXIN_FETCH_ACCESSTOKEN_ERROR(-602, "获取access_token失败"),
-    WEIXIN_FETCH_USERINFO_ERROR(-603, "获取用户信息失败"),;
+//    ALIYUN_RESPONSE_ERROR(-501, "阿里云短信服务响应失败"),
+//    ALIYUN_SMS_LIMIT_CONTROL_ERROR(-502, "短信发送过于频繁"),//业务限流
+//    ALIYUN_SMS_ERROR(-503, "短信发送失败"),//其他失败
+//
+//    WEIXIN_CALLBACK_PARAM_ERROR(-601, "回调参数不正确"),
+//    WEIXIN_FETCH_ACCESSTOKEN_ERROR(-602, "获取access_token失败"),
+//    WEIXIN_FETCH_USERINFO_ERROR(-603, "获取用户信息失败"),;
 
     ;
     // 响应状态码
