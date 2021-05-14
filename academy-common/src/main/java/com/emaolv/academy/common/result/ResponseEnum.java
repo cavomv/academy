@@ -16,8 +16,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public enum ResponseEnum {
 
-    SUCCESS(0, "成功"),
-    Fail(-1,"内部错误"),
+    SUCCESS(20000, "成功"),
+    Fail(20001,"内部错误"),
 
     //-1xx 服务器错误
     BAD_SQL_GRAMMAR_ERROR(-101, "sql语法错误"),
