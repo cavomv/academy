@@ -32,8 +32,9 @@ import java.util.List;
 @EnableOpenApi
 @Api(description = "讲师管理")
 @RestController
-@RequestMapping("/academyTeacher")
+@RequestMapping("/admin/core/academyTeacher")
 @Slf4j
+@CrossOrigin
 public class AcademyTeacherController {
 
     // 注入Service
@@ -41,11 +42,11 @@ public class AcademyTeacherController {
     private AcademyTeacherService academyTeacherService;
 
     @ApiOperation(value="获取所有讲师列表")
-    @GetMapping("findAll")
+    @GetMapping("list")
     public R findAllTeacher(){
 //        调用service中的方法查询所有的操作
-        List<AcademyTeacher> list = academyTeacherService.list(null);
-        return R.success().data("list", list).message("获取列表成功");
+        List<AcademyTeacher> teacherList = academyTeacherService.list(null);
+        return R.success().data("teacherList", teacherList).message("获取列表成功");
     }
 
     @ApiOperation(value = "根据ID逻辑删除", notes = "逻辑删除数据记录")
@@ -107,10 +108,12 @@ public class AcademyTeacherController {
             AcademyTeacherQuery academyTeacherQuery
     )
     {
+
         // 创建page对象
         Page<AcademyTeacher> pageListTeacherWithCondition = new Page<>(current, size);
         // 构建条件
         QueryWrapper<AcademyTeacher> queryWrapper = new QueryWrapper<>();
+
         // 查询的条件
         String name = academyTeacherQuery.getName();
         Integer level = academyTeacherQuery.getLevel();
