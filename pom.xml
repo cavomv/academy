@@ -6,6 +6,7 @@
         <module>academy-teacher</module>
         <module>academy-common</module>
         <module>academy-oss</module>
+        <module>academy-jwt</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
