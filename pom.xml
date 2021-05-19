@@ -5,6 +5,7 @@
     <modules>
         <module>academy-teacher</module>
         <module>academy-common</module>
+        <module>academy-oss</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -27,6 +28,7 @@
         <swagger.version>3.0.0</swagger.version>
         <velocity-engine-core.version>2.3</velocity-engine-core.version>
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
+        <joda-time.version>2.10.10</joda-time.version>
     </properties>
 
     <dependencies>
@@ -60,7 +62,14 @@
 
     <!-- 管理jar版本 -->
     <dependencyManagement>
+
         <dependencies>
+            <!--日期工具依赖-->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
+            </dependency>
             <!--mybatis-plus 持久层-->
             <dependency>
                 <groupId>com.baomidou</groupId>
