@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.emaolv.academy.teacher.mapper.AcademyCourseTypeMapper">
+    <resultMap id="nestedListCourse" type="com.emaolv.academy.teacher.entity.vo.CourseCategoryQuery">
+        <id property="id" column="id" />
+        <id property="title" column="title" />
+        <id property="sort" column="sort" />
+        <collection
+                property="children"
+                column="id"
+                select="selectNestedListByParentId"
+                ofType="com.emaolv.academy.teacher.entity.vo.CourseCategoryQuery" />
+    </resultMap>
 
+     <select id="selectNestedListByParentId" resultMap="nestedListCourse">
+         select id, title, sort from academy_course_type where parent_id = #{parentId}
+     </select>
 </mapper>
