@@ -2,7 +2,10 @@ package com.emaolv.academy.teacher.service;
 
 import com.emaolv.academy.teacher.entity.AcademyCourseType;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.emaolv.academy.teacher.entity.vo.CourseCategoryQuery;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,4 +23,10 @@ public interface AcademyCourseTypeService extends IService<AcademyCourseType> {
      * @param file 上传文件
      */
     void saveCourseType(MultipartFile file, AcademyCourseTypeService academyCourseTypeService);
+
+    /**
+     * 获取课程分类嵌套列表
+     * @return
+     */
+    List<CourseCategoryQuery> nestedList();
 }
