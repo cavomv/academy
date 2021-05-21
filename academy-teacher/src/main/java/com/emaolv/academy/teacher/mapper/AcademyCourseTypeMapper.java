@@ -2,6 +2,9 @@ package com.emaolv.academy.teacher.mapper;
 
 import com.emaolv.academy.teacher.entity.AcademyCourseType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.emaolv.academy.teacher.entity.vo.CourseCategoryQuery;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface AcademyCourseTypeMapper extends BaseMapper<AcademyCourseType> {
 
+    List<CourseCategoryQuery> selectNestedListByParentId(String parentId);
 }
