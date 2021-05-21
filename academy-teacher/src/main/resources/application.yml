@@ -12,8 +12,8 @@ spring:
   datasource:
     # mysql 数据库连接
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 1a!SY!5om8
+    username: ${your mysql username}
+    password: ${your mysql password}
     url: jdbc:mysql://localhost:3306/db_20210510_edu_core?serverTimezone=GMT%2B8
 
 # 返回json的全局时间模式
@@ -21,6 +21,8 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # 扫描 mapper
+  mapper-locations: classpath:com/emaolv/academy/teacher/mapper/xml/*.xml
 # Enable swagger
 springfox:
   documentation:
