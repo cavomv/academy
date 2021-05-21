@@ -3,6 +3,7 @@ package com.emaolv.academy.teacher.service.impl;
 import com.alibaba.excel.EasyExcel;
 import com.emaolv.academy.teacher.entity.AcademyCourseType;
 import com.emaolv.academy.teacher.entity.excel.CourseTypeData;
+import com.emaolv.academy.teacher.entity.vo.CourseCategoryQuery;
 import com.emaolv.academy.teacher.listener.CourseTypeExcelListener;
 import com.emaolv.academy.teacher.mapper.AcademyCourseTypeMapper;
 import com.emaolv.academy.teacher.service.AcademyCourseTypeService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * <p>
@@ -42,5 +44,14 @@ public class AcademyCourseTypeServiceImpl extends ServiceImpl<AcademyCourseTypeM
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * 获取一级分类嵌套列表
+     * @return
+     */
+    @Override
+    public List<CourseCategoryQuery> nestedList() {
+        return baseMapper.selectNestedListByParentId("0");
     }
 }
