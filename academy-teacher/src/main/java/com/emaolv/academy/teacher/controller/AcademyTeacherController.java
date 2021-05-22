@@ -1,6 +1,6 @@
 package com.emaolv.academy.teacher.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.emaolv.academy.common.result.R;
 import com.emaolv.academy.teacher.entity.AcademyTeacher;
@@ -11,11 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.oas.annotations.EnableOpenApi;
-
-
 
 import java.util.List;
 
@@ -85,24 +82,7 @@ public class AcademyTeacherController {
         }
     }
 
-    @ApiOperation(value = "讲师分页查询")
-    @GetMapping("page/{current}/{size}")
-    public R pageListTeacher(
-            @ApiParam(value = "当前页", required = true)
-            @PathVariable Long current,
-            @ApiParam(value ="每页记录数", required = true)
-            @PathVariable Long size
-    ){
-        // 创建Page对象
-        Page<AcademyTeacher> pageListTeacher = new Page<>(current,size);
-        // 调用方法实现分页
-        academyTeacherService.page(pageListTeacher, null);
-        // 总记录数
-        long total = pageListTeacher.getTotal();
-        // 每页记录数
-        List<AcademyTeacher> records = pageListTeacher.getRecords();
-        return R.success().data("total", total).data("rows", records);
-    }
+
 
     /**
      * 根据讲师条件分页查询
@@ -112,52 +92,21 @@ public class AcademyTeacherController {
      * @return
      */
     @ApiOperation(value = "根据讲师条件分页查询")
-    @RequestMapping(value="/{current}/{size}")
+    @GetMapping(value="/{current}/{size}")
     public R selectTeacherByPage(
-            @ApiParam(name = "current", value = "当前页", required = true) @PathVariable(value = "current") long  current,
-            @ApiParam(name = "size", value = "当前页", required = true) @PathVariable(value = "size") long  size,
-            @RequestBody(required = false) AcademyTeacherQuery academyTeacherQuery) {
-               // 构建page对象
+            @ApiParam(name = "current", value = "当前页", required = true)
+            @PathVariable(value = "current") long  current,
+            @ApiParam(name = "size", value = "每页记录数", required = true)
+            @PathVariable(value = "size") long  size,
+            @ApiParam(name="academyTeacherQuery", value="讲师查询列表对象", required = false)
+                    AcademyTeacherQuery academyTeacherQuery) {
+                // 构建page对象
                 Page<AcademyTeacher> pageTeacher = new Page<>(current, size);
-                // 构建条件
-                QueryWrapper<AcademyTeacher> queryWrapper = new QueryWrapper<>();
-                // ASC表示升序排序，DESC表示降序排序
-                queryWrapper.orderByDesc("create_time");
-                if(academyTeacherQuery == null){
-                    academyTeacherService.page(pageTeacher, null);
-                    // 总记录数
-                    long total = pageTeacher.getTotal();
-                    // 每页记录数
-                    List<AcademyTeacher> records = pageTeacher.getRecords();
-                    return R.success().data("total", total).data("rows", records);
-                }
-                // 获取对象属性
-                String name = academyTeacherQuery.getName();
-                System.out.println("academyTeacherQuery.getName();"+academyTeacherQuery.getName());
-                Integer level = academyTeacherQuery.getLevel();
-                String begin = academyTeacherQuery.getBegin();
-                String end = academyTeacherQuery.getEnd();
-                // 判断条件值是否为空 如果不为空 则拼接条件
-                if (StringUtils.hasText(name)) {
-                    queryWrapper.like("name", name);
-                }
-                if ((String.valueOf(level) == null)){
-                    System.out.println((String.valueOf(level) == null));
-                    if(StringUtils.hasText(String.valueOf(level))){
-                        queryWrapper.eq("level", String.valueOf(level));
-                    }
-                }
-
-                if(StringUtils.hasText(begin)){
-                    // ge 大于等于 >=
-                    queryWrapper.ge("create_time",begin);
-                }
-                if(StringUtils.hasText(end)){
-                    // 小于等于 <=
-                    queryWrapper.le("update_time",end);
-                }
-                academyTeacherService.page(pageTeacher, queryWrapper);
+                // 参数一，查询页详情 参数二，查询对象
+                IPage<AcademyTeacher> pageModel = academyTeacherService.selectPage(pageTeacher, academyTeacherQuery);
+                // 总记录数
                 long total = pageTeacher.getTotal();
+                // 查询结果
                 List<AcademyTeacher> records = pageTeacher.getRecords();
                 return R.success().data("total", total).data("rows", records);
     }
