@@ -42,7 +42,7 @@ public class CustomizeException extends RuntimeException{
      * @param code 错误码
      * @param cause 原始异常对象
      */
-    public CustomizeException(String message, Integer code, Throwable cause){
+    public CustomizeException(Integer code, String message, Throwable cause){
         super(cause);
 
         this.message = message;
