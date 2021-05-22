@@ -3,8 +3,6 @@ package com.emaolv.academy.common.exception;
 import com.emaolv.academy.common.result.ResponseEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * @author: liu jia
@@ -33,7 +31,7 @@ public class CustomizeException extends RuntimeException{
      * @param message 错误消息
      * @param code 错误码
      */
-    public CustomizeException(String message, Integer code){
+    public CustomizeException(Integer code, String message){
         this.message = message;
         this.code = code;
     }
