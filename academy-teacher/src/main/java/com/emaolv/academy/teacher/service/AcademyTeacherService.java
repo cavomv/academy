@@ -1,7 +1,10 @@
 package com.emaolv.academy.teacher.service;
 
-import com.emaolv.academy.teacher.entity.AcademyTeacher;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.emaolv.academy.teacher.entity.AcademyTeacher;
+import com.emaolv.academy.teacher.entity.vo.AcademyTeacherQuery;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AcademyTeacherService extends IService<AcademyTeacher> {
 
+    IPage<AcademyTeacher> selectPage(Page<AcademyTeacher> pageTeacher, AcademyTeacherQuery academyTeacherQuery);
 }
