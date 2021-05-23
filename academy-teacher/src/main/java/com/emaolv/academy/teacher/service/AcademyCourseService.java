@@ -15,4 +15,6 @@ import com.emaolv.academy.teacher.entity.form.CourseInfoFrom;
 public interface AcademyCourseService extends IService<AcademyCourse> {
 
     String saveCourseInfo(CourseInfoFrom courseInfoFrom);
+
+    CourseInfoFrom getCourseInfoById(String id);
 }
