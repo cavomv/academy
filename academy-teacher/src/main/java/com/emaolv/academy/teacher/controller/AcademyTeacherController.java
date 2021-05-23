@@ -36,6 +36,14 @@ public class AcademyTeacherController {
     @Autowired
     private AcademyTeacherService academyTeacherService;
 
+    @ApiOperation("所有讲师列表")
+    @GetMapping("/all")
+    public R listAll(){
+        List<AcademyTeacher> list = academyTeacherService.list();
+        return R.success().data("items",list);
+
+    }
+
     @ApiOperation(value="获取所有讲师列表")
     @GetMapping(value = "/list")
     public R getTeacherList(){
