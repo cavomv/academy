@@ -10,6 +10,7 @@ import com.emaolv.academy.teacher.service.AcademyCourseService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -24,7 +25,8 @@ public class AcademyCourseServiceImpl extends ServiceImpl<AcademyCourseMapper, A
 
     @Autowired
     private AcademyCourseDescriptionMapper academyCourseDescriptionMapper;
-
+    // 一旦发生异常 即进行代码回滚
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String saveCourseInfo(CourseInfoFrom courseInfoFrom) {
 
@@ -42,5 +44,22 @@ public class AcademyCourseServiceImpl extends ServiceImpl<AcademyCourseMapper, A
         academyCourseDescriptionMapper.insert(academyCourseDescription);
 
         return academyCourse.getId();
+    }
+
+    @Override
+    public CourseInfoFrom getCourseInfoById(String id) {
+
+        // 根据id获取Course
+        AcademyCourse academyCourse = baseMapper.selectById(id);
+        if(academyCourse == null){
+            return null;
+        }
+        // 根据id获取CourseDescription
+        AcademyCourseDescription academyCourseDescription = academyCourseDescriptionMapper.selectById(id);
+        // 组装courseInfoFrom
+        CourseInfoFrom courseInfoFrom = new CourseInfoFrom();
+        BeanUtils.copyProperties(academyCourse, courseInfoFrom);
+        courseInfoFrom.setDescription(academyCourseDescription.getDescription());
+        return courseInfoFrom;
     }
 }
