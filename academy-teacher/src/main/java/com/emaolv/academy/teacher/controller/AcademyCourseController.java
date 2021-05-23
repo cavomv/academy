@@ -37,5 +37,19 @@ public class AcademyCourseController {
     }
 
 
+    @ApiOperation("根据ID查询课程")
+    @GetMapping("course/{id}")
+    public R getById(
+            @ApiParam(value = "课程ID", required = true)
+            @PathVariable String id){
+        CourseInfoFrom courseInfoFrom = academyCourseService.getCourseInfoById(id);
+        if(courseInfoFrom != null) {
+            return R.success().data("item", courseInfoFrom);
+        } else {
+            return R.fail().message("数据不存在");
+        }
+    }
+
+
 }
 
