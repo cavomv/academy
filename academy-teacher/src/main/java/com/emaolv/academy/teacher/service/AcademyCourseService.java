@@ -1,8 +1,11 @@
 package com.emaolv.academy.teacher.service;
 
-import com.emaolv.academy.teacher.entity.AcademyCourse;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.emaolv.academy.teacher.entity.AcademyCourse;
 import com.emaolv.academy.teacher.entity.form.CourseInfoFrom;
+import com.emaolv.academy.teacher.entity.vo.CourseQuery;
+import com.emaolv.academy.teacher.entity.vo.CourseVo;
 
 /**
  * <p>
@@ -17,4 +20,8 @@ public interface AcademyCourseService extends IService<AcademyCourse> {
     String saveCourseInfo(CourseInfoFrom courseInfoFrom);
 
     CourseInfoFrom getCourseInfoById(String id);
+
+    void updateCourseInfoById(CourseInfoFrom courseInfoFrom);
+
+    IPage<CourseVo> selectPage(long current, long size, CourseQuery courseQuery);
 }
