@@ -47,7 +47,7 @@ public class OssServiceImpl implements OssService {
     }
 
     @Override
-    public void removeAvatarFile(String url) {
+    public void removeFile(String url) {
         String endpoint = ConstantPropertiesUtils.END_POINT;
         String accessKeyId = ConstantPropertiesUtils.KEY_ID;
         String accessKeySecret = ConstantPropertiesUtils.KEY_SECRET;
