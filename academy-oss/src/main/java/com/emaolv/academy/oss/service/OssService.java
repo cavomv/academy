@@ -22,6 +22,5 @@ public interface OssService {
      * 删除oss中的讲师头像
      * @param url 文件的url地址
      */
-    void removeAvatarFile(String url);
-
+    void removeFile(String url);
 }
