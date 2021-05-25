@@ -3,11 +3,14 @@ package com.emaolv.academy.teacher.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.emaolv.academy.common.result.R;
 import com.emaolv.academy.teacher.entity.AcademyTeacher;
 import com.emaolv.academy.teacher.entity.vo.AcademyTeacherQuery;
+import com.emaolv.academy.teacher.feign.OssFeignService;
 import com.emaolv.academy.teacher.mapper.AcademyTeacherMapper;
 import com.emaolv.academy.teacher.service.AcademyTeacherService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,6 +24,9 @@ import org.springframework.util.StringUtils;
  */
 @Service
 public class AcademyTeacherServiceImpl extends ServiceImpl<AcademyTeacherMapper, AcademyTeacher> implements AcademyTeacherService {
+
+    @Autowired
+    private OssFeignService ossFeignService;
 
     @Override
     public IPage<AcademyTeacher> selectPage(Page<AcademyTeacher> pageTeacher, AcademyTeacherQuery academyTeacherQuery) {
@@ -52,5 +58,21 @@ public class AcademyTeacherServiceImpl extends ServiceImpl<AcademyTeacherMapper,
         }
 
         return baseMapper.selectPage(pageTeacher, queryWrapper);
+    }
+
+    @Override
+    public boolean removeAvatarById(String id) {
+        // 根据id 获取讲师头像地址
+        AcademyTeacher academyTeacher = baseMapper.selectById(id);
+        if(academyTeacher != null) {
+            String avatar = academyTeacher.getAvatar();
+            if(!StringUtils.isEmpty(avatar)){
+                // 删除讲师头像
+                R r = ossFeignService.removeAvatar(avatar);
+                System.out.println("远程删除：" + r);
+                return r.getSuccess();
+            }
+        }
+        return false;
     }
 }
