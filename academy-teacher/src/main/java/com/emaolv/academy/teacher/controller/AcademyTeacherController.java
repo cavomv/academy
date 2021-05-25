@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.emaolv.academy.common.result.R;
 import com.emaolv.academy.teacher.entity.AcademyTeacher;
 import com.emaolv.academy.teacher.entity.vo.AcademyTeacherQuery;
+import com.emaolv.academy.teacher.feign.OssFeignService;
 import com.emaolv.academy.teacher.service.AcademyTeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,6 +37,9 @@ public class AcademyTeacherController {
     @Autowired
     private AcademyTeacherService academyTeacherService;
 
+    @Autowired
+    private OssFeignService ossFeignService;
+
     @ApiOperation("所有讲师列表")
     @GetMapping("/all")
     public R listAll(){
@@ -58,17 +62,21 @@ public class AcademyTeacherController {
     }
 
     @ApiOperation(value = "根据ID逻辑删除", notes = "逻辑删除数据记录")
-    @DeleteMapping("{id}")
+    @DeleteMapping("remove/{id}")
     public R removeById(
-            @ApiParam(name = "id", value = "讲师ID", required = true)
+            @ApiParam(value = "讲师ID", required = true)
             @PathVariable String id) {
-        try{
-            academyTeacherService.removeById(id);
-            return R.success().message("删除成功");
-        } catch(Exception e) {
-            e.printStackTrace();
-            return R.fail().message("删除失败");
-        }
+
+            // 删除讲师头像
+            academyTeacherService.removeAvatarById(id);
+            // 删除讲师
+            boolean result = academyTeacherService.removeById(id);
+            if(result) {
+                return R.success().message("删除成功");
+            }
+            else {
+                return R.fail().message("数据不存在");
+            }
     }
 
     /**
@@ -152,5 +160,21 @@ public class AcademyTeacherController {
             return R.fail().message("更新失败");
         }
     }
+
+    @ApiOperation(value = "调用oss微服务中的test")
+    @GetMapping("/call/oss/test")
+    public R ossTest() {
+        ossFeignService.test();
+        return R.success().message("调用oss微服务中的test");
+    }
+
+    @ApiOperation(value = "本地测试开发test")
+    @GetMapping("/call/teacher/test")
+    public R teacherTest() {
+        System.out.println("调用了本地方法test");
+        return R.success().message("调用了本地方法test");
+    }
+
+
 }
 
