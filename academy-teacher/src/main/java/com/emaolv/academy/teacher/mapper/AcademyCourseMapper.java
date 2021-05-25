@@ -1,7 +1,14 @@
 package com.emaolv.academy.teacher.mapper;
 
-import com.emaolv.academy.teacher.entity.AcademyCourse;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.emaolv.academy.teacher.entity.AcademyCourse;
+import com.emaolv.academy.teacher.entity.vo.CourseVo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +20,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface AcademyCourseMapper extends BaseMapper<AcademyCourse> {
 
+    List<CourseVo> selectPageByCourseQuery(
+            Page<CourseVo> courseVoPage,
+            @Param(Constants.WRAPPER)
+            QueryWrapper<AcademyCourse> academyCourseQueryWrapper);
 }
