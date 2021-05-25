@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -19,13 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient("academy-oss")
 public interface OssFeignService {
 
-    @ApiOperation(value = "头像删除")
-    @DeleteMapping("/oss/remove/avatar")
+    @ApiOperation(value = "文件删除")
+    @DeleteMapping("/oss/remove/file")
     R removeAvatar(
-            @ApiParam(value = "删除头像url路径", required = true)
+            @ApiParam(value = "删除文件url路径", required = true)
             @RequestBody String url);
-
-    @ApiOperation(value = "测试")
-    @GetMapping("oss/test")
-    R test();
 }
