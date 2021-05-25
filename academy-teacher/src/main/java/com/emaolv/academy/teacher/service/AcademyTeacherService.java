@@ -17,4 +17,6 @@ import com.emaolv.academy.teacher.entity.vo.AcademyTeacherQuery;
 public interface AcademyTeacherService extends IService<AcademyTeacher> {
 
     IPage<AcademyTeacher> selectPage(Page<AcademyTeacher> pageTeacher, AcademyTeacherQuery academyTeacherQuery);
+    // 根据id 删除讲师头像
+    boolean removeAvatarById(String id);
 }
