@@ -1,7 +1,5 @@
 package com.emaolv.academy.oss.service;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.InputStream;
 
 /**
@@ -19,4 +17,11 @@ public interface OssService {
      * @return
      */
     String upload(InputStream inputStream, String module, String fileName);
+
+    /**
+     * 删除oss中的讲师头像
+     * @param url 文件的url地址
+     */
+    void removeAvatarFile(String url);
+
 }
