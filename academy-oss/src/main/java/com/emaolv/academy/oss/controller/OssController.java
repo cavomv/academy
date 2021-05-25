@@ -39,14 +39,15 @@ public class OssController {
 
     }
 
-    @ApiOperation(value = "调用了远程删除讲师头像")
-    @DeleteMapping(value = "/remove/avatar")
-    public R removeAvatar(
-            @ApiParam(value = "头像路径", required = true)
+    @ApiOperation(value = "调用了远程删除oss文件")
+    @DeleteMapping(value = "/remove/file")
+    public R removeFile(
+            @ApiParam(value = "文件路径", required = true)
             @RequestBody String url){
-        ossService.removeAvatarFile(url);
-        return R.success().message("删除成功");
+        ossService.removeFile(url);
+        return R.success().message("文件删除成功");
     }
+
 
     @ApiOperation(value = "模拟长流程业务")
     @GetMapping("test")
