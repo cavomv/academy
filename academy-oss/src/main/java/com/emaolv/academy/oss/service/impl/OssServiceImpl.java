@@ -1,12 +1,13 @@
 package com.emaolv.academy.oss.service.impl;
 
 import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.CannedAccessControlList;
 import com.emaolv.academy.oss.service.OssService;
 import com.emaolv.academy.oss.utils.ConstantPropertiesUtils;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
-import com.aliyun.oss.OSSClientBuilder;
+
 import java.io.InputStream;
 import java.util.UUID;
 
@@ -43,5 +44,22 @@ public class OssServiceImpl implements OssService {
         ossClient.shutdown();
         String url = "https://" + ConstantPropertiesUtils.BUCKET_NAME + "." + ConstantPropertiesUtils.END_POINT + "/" + key;
         return url;
+    }
+
+    @Override
+    public void removeAvatarFile(String url) {
+        String endpoint = ConstantPropertiesUtils.END_POINT;
+        String accessKeyId = ConstantPropertiesUtils.KEY_ID;
+        String accessKeySecret = ConstantPropertiesUtils.KEY_SECRET;
+        String bucketName = ConstantPropertiesUtils.BUCKET_NAME;
+
+        // 创建OSSClient实例。
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        //  删除讲师头像
+        String host = "https://" + bucketName + "." + endpoint + "/";
+        String objectName = url.substring(host.length());
+        ossClient.deleteObject(bucketName, objectName);
+        // 关闭OSSClient。
+        ossClient.shutdown();
     }
 }
