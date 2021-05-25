@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author: liu jia
@@ -38,4 +39,24 @@ public class OssController {
 
     }
 
+    @ApiOperation(value = "调用了远程删除讲师头像")
+    @DeleteMapping(value = "/remove/avatar")
+    public R removeAvatar(
+            @ApiParam(value = "头像路径", required = true)
+            @RequestBody String url){
+        ossService.removeAvatarFile(url);
+        return R.success().message("删除成功");
+    }
+
+    @ApiOperation(value = "模拟长流程业务")
+    @GetMapping("test")
+    public R test() {
+        System.out.println("终于可以调用到远程的OSS方法");
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return R.success();
+    }
 }
