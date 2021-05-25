@@ -1,9 +1,14 @@
 package com.emaolv.academy.teacher.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.emaolv.academy.teacher.entity.AcademyCourse;
 import com.emaolv.academy.teacher.entity.AcademyCourseDescription;
 import com.emaolv.academy.teacher.entity.form.CourseInfoFrom;
+import com.emaolv.academy.teacher.entity.vo.CourseQuery;
+import com.emaolv.academy.teacher.entity.vo.CourseVo;
 import com.emaolv.academy.teacher.mapper.AcademyCourseDescriptionMapper;
 import com.emaolv.academy.teacher.mapper.AcademyCourseMapper;
 import com.emaolv.academy.teacher.service.AcademyCourseService;
@@ -11,6 +16,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * <p>
@@ -61,5 +69,61 @@ public class AcademyCourseServiceImpl extends ServiceImpl<AcademyCourseMapper, A
         BeanUtils.copyProperties(academyCourse, courseInfoFrom);
         courseInfoFrom.setDescription(academyCourseDescription.getDescription());
         return courseInfoFrom;
+    }
+
+    @Override
+    public void updateCourseInfoById(CourseInfoFrom courseInfoFrom) {
+
+        // 更新course
+        AcademyCourse course = new AcademyCourse();
+        BeanUtils.copyProperties(courseInfoFrom, course);
+        baseMapper.updateById(course);
+
+        // 更新CourseDescription
+        AcademyCourseDescription courseDescription = new AcademyCourseDescription();
+        courseDescription.setDescription(courseInfoFrom.getDescription());
+        courseDescription.setId(courseInfoFrom.getId());
+        academyCourseDescriptionMapper.updateById(courseDescription);
+
+
+    }
+
+    @Override
+    public IPage<CourseVo> selectPage(long current, long size, CourseQuery courseQuery) {
+
+        QueryWrapper<AcademyCourse> academyCourseQueryWrapper = new QueryWrapper<>();
+        academyCourseQueryWrapper.orderByDesc("c.create_time");
+
+
+        String title = courseQuery.getTitle();
+        String teacherId = courseQuery.getTeacherId();
+        // 一级分类ID
+        String courseTypeParentId = courseQuery.getCourseTypeParentId();
+        // 二级分类ID
+        String courseTypeId = courseQuery.getCourseTypeId();
+
+        if(!StringUtils.isEmpty(title)){
+            academyCourseQueryWrapper.like("c.title", title);
+        }
+
+        if(!StringUtils.isEmpty(teacherId)){
+            academyCourseQueryWrapper.eq("c.teacher_id", teacherId);
+        }
+        // 一级分类
+        if(!StringUtils.isEmpty(courseTypeParentId)){
+            academyCourseQueryWrapper.eq("ct1.course_type_parent_id", courseTypeParentId);
+        }
+        // 二级分类
+        if(!StringUtils.isEmpty(courseTypeId)){
+            academyCourseQueryWrapper.eq("ct2.course_type_id", courseTypeId);
+        }
+
+        // 组装分页  courseVoPage page对象
+        Page<CourseVo> courseVoPage = new Page<>(current, size);
+         // 执行查询
+        List<CourseVo> records = baseMapper.selectPageByCourseQuery(courseVoPage, academyCourseQueryWrapper);
+        courseVoPage.setRecords(records);
+        // 将records 设置到 courseVoPage
+        return courseVoPage;
     }
 }
