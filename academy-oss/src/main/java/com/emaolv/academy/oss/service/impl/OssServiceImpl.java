@@ -55,7 +55,7 @@ public class OssServiceImpl implements OssService {
 
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-        //  删除讲师头像
+        //  删除文件
         String host = "https://" + bucketName + "." + endpoint + "/";
         String objectName = url.substring(host.length());
         ossClient.deleteObject(bucketName, objectName);
