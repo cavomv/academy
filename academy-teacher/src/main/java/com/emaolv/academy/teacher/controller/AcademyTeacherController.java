@@ -25,7 +25,6 @@ import java.util.List;
  * @author Jia
  * @since 2021-05-11
  */
-@EnableOpenApi
 @Api(tags = "讲师管理")
 @RestController
 @RequestMapping( "/teacher")
@@ -147,7 +146,7 @@ public class AcademyTeacherController {
     }
 
     @ApiOperation(value ="根据讲师ID修改讲师信息")
-    @RequestMapping("/update")
+    @PutMapping("/update")
     public R update(
             @ApiParam(name = "teacher", value = "讲师", required = true)
             @RequestBody AcademyTeacher academyTeacher)
@@ -160,21 +159,5 @@ public class AcademyTeacherController {
             return R.fail().message("更新失败");
         }
     }
-
-    @ApiOperation(value = "调用oss微服务中的test")
-    @GetMapping("/call/oss/test")
-    public R ossTest() {
-        ossFeignService.test();
-        return R.success().message("调用oss微服务中的test");
-    }
-
-    @ApiOperation(value = "本地测试开发test")
-    @GetMapping("/call/teacher/test")
-    public R teacherTest() {
-        System.out.println("调用了本地方法test");
-        return R.success().message("调用了本地方法test");
-    }
-
-
 }
 
