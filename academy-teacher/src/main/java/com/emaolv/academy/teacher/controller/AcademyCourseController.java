@@ -23,7 +23,7 @@ import java.util.List;
  * @author Jia
  * @since 2021-05-23
  */
-@Api("课程管理")
+@Api(tags="课程管理")
 @CrossOrigin
 @RestController
 @RequestMapping("/teacher")
