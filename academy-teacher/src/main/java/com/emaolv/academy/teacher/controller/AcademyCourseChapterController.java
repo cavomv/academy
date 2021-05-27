@@ -3,6 +3,7 @@ package com.emaolv.academy.teacher.controller;
 
 import com.emaolv.academy.common.result.R;
 import com.emaolv.academy.teacher.entity.AcademyCourseChapter;
+import com.emaolv.academy.teacher.entity.vo.ChapterVo;
 import com.emaolv.academy.teacher.service.AcademyCourseChapterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +11,8 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -83,6 +86,15 @@ public class AcademyCourseChapterController {
         } else {
             return R.fail().message("数据不存在");
         }
+    }
+
+    @ApiOperation("嵌套章节数据列表")
+    @GetMapping("nestedList/{courseId}")
+    public R nestedListByCourseId(
+            @ApiParam(value = "课程ID", required = true)
+            @PathVariable String courseId){
+        List<ChapterVo> chapterVoList = academyCourseChapterService.nestedList(courseId);
+        return R.success().data("items", chapterVoList);
     }
 }
 
