@@ -46,10 +46,10 @@ public class AcademyCourseChapterController {
 
 
     @ApiOperation("根据ID查询章节")
-    @GetMapping("get/{id}")
+    @GetMapping("get/{courseId}")
     public R getById(
             @ApiParam(value = "章节ID", required = true)
-            @PathVariable String chapterId){
+            @PathVariable("courseId") String chapterId){
         AcademyCourseChapter academyCourseChapter = academyCourseChapterService.getById(chapterId);
         if (academyCourseChapter != null){
             return R.success().data("items",academyCourseChapter);
@@ -92,7 +92,7 @@ public class AcademyCourseChapterController {
     @GetMapping("nestedList/{courseId}")
     public R nestedListByCourseId(
             @ApiParam(value = "课程ID", required = true)
-            @PathVariable String courseId){
+            @PathVariable("courseId") String courseId){
         List<ChapterVo> chapterVoList = academyCourseChapterService.nestedList(courseId);
         return R.success().data("items", chapterVoList);
     }
