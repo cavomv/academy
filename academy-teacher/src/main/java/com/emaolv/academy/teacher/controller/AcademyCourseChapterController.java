@@ -46,7 +46,7 @@ public class AcademyCourseChapterController {
 
 
     @ApiOperation("根据ID查询章节")
-    @GetMapping("getById/{chapterId}")
+    @GetMapping("get/{id}")
     public R getById(
             @ApiParam(value = "章节ID", required = true)
             @PathVariable String chapterId){
@@ -75,12 +75,12 @@ public class AcademyCourseChapterController {
     @DeleteMapping("remove/{id}")
     public R removeById(
             @ApiParam(value = "章节ID", required = true)
-            @PathVariable String chapterId){
+            @PathVariable String id){
         // TODO 删除课程视频
         // 此处调用VOD中删除视频文件的接口
 
         // 删除章节
-        boolean result = academyCourseChapterService.removeChapterById(chapterId);
+        boolean result = academyCourseChapterService.removeChapterById(id);
         if (result){
             return R.success().message("删除成功");
         } else {
