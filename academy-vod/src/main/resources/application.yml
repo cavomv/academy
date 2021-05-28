@@ -15,5 +15,5 @@ spring:
       max-file-size: 1024MB
 aliyun:
   vod:
-    keyid: LTAI4FoogNcLMkirN9moFXKb
-    keysecret: WGrv2t1DnNZtSPFyfKDp7gij4aDtha
+    keyid: ${your keyid}
+    keysecret: ${your keysecret}
