@@ -32,7 +32,9 @@ import java.util.List;
 @CrossOrigin
 public class AcademyTeacherController {
 
-    // 注入Service
+    /**
+     * 注入academyTeacherService
+     */
     @Autowired
     private AcademyTeacherService academyTeacherService;
 
