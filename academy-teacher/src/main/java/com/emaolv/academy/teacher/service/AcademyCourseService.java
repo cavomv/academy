@@ -6,6 +6,9 @@ import com.emaolv.academy.teacher.entity.AcademyCourse;
 import com.emaolv.academy.teacher.entity.form.CourseInfoFrom;
 import com.emaolv.academy.teacher.entity.vo.CourseQuery;
 import com.emaolv.academy.teacher.entity.vo.CourseVo;
+import com.emaolv.academy.teacher.entity.vo.WebCourseQueryVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -24,4 +27,6 @@ public interface AcademyCourseService extends IService<AcademyCourse> {
     void updateCourseInfoById(CourseInfoFrom courseInfoFrom);
 
     IPage<CourseVo> selectPage(long current, long size, CourseQuery courseQuery);
+
+    List<AcademyCourse> webPageList(WebCourseQueryVo webCourseQueryVo);
 }
