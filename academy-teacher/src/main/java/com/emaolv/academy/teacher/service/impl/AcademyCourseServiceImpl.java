@@ -9,6 +9,7 @@ import com.emaolv.academy.teacher.entity.AcademyCourseDescription;
 import com.emaolv.academy.teacher.entity.form.CourseInfoFrom;
 import com.emaolv.academy.teacher.entity.vo.CourseQuery;
 import com.emaolv.academy.teacher.entity.vo.CourseVo;
+import com.emaolv.academy.teacher.entity.vo.WebCourseQueryVo;
 import com.emaolv.academy.teacher.mapper.AcademyCourseDescriptionMapper;
 import com.emaolv.academy.teacher.mapper.AcademyCourseMapper;
 import com.emaolv.academy.teacher.service.AcademyCourseService;
@@ -125,5 +126,31 @@ public class AcademyCourseServiceImpl extends ServiceImpl<AcademyCourseMapper, A
         courseVoPage.setRecords(records);
         // 将records 设置到 courseVoPage
         return courseVoPage;
+    }
+
+    @Override
+    public List<AcademyCourse> webPageList(WebCourseQueryVo webCourseQueryVo) {
+
+        QueryWrapper<AcademyCourse> academyCourseQueryWrapper = new QueryWrapper<>();
+        // 查询已发布的课程
+        academyCourseQueryWrapper.eq("status", AcademyCourse.COURSE_NORMAL);
+
+        if(!StringUtils.isEmpty(webCourseQueryVo.getCourseTypeParentId())){
+            academyCourseQueryWrapper.eq("course_type_parent_id", webCourseQueryVo.getCourseTypeParentId());
+        }
+        if(!StringUtils.isEmpty(webCourseQueryVo.getCourseTypeId())){
+            academyCourseQueryWrapper.eq("course_type_id", webCourseQueryVo.getCourseTypeId());
+        }
+        if(!StringUtils.isEmpty(webCourseQueryVo.getBuyCountSort())){
+            academyCourseQueryWrapper.orderByDesc("buy_count");
+        }
+        if(!StringUtils.isEmpty(webCourseQueryVo.getCreateTimeSort())){
+            academyCourseQueryWrapper.orderByDesc("create_time");
+        }
+        if(!StringUtils.isEmpty(webCourseQueryVo.getPriceSort())){
+            academyCourseQueryWrapper.orderByDesc("price");
+        }
+
+        return baseMapper.selectList(academyCourseQueryWrapper);
     }
 }
