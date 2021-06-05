@@ -4,15 +4,22 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.emaolv.academy.common.result.R;
+import com.emaolv.academy.teacher.entity.AcademyCourse;
 import com.emaolv.academy.teacher.entity.AcademyTeacher;
 import com.emaolv.academy.teacher.entity.vo.AcademyTeacherQuery;
 import com.emaolv.academy.teacher.feign.OssFeignService;
+import com.emaolv.academy.teacher.mapper.AcademyCourseMapper;
 import com.emaolv.academy.teacher.mapper.AcademyTeacherMapper;
 import com.emaolv.academy.teacher.service.AcademyTeacherService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -27,6 +34,10 @@ public class AcademyTeacherServiceImpl extends ServiceImpl<AcademyTeacherMapper,
 
     @Autowired
     private OssFeignService ossFeignService;
+
+    @Autowired
+    @Resource
+    private AcademyCourseMapper academyCourseMapper;
 
     @Override
     public IPage<AcademyTeacher> selectPage(Page<AcademyTeacher> pageTeacher, AcademyTeacherQuery academyTeacherQuery) {
@@ -74,5 +85,21 @@ public class AcademyTeacherServiceImpl extends ServiceImpl<AcademyTeacherMapper,
             }
         }
         return false;
+    }
+
+    @Override
+    public Map<String, Object> selectTeacherInfoById(String id) {
+        // 获取讲师基本信息
+        AcademyTeacher academyTeacher = baseMapper.selectById(id);
+        // 获取讲师所讲课程信息
+        QueryWrapper<AcademyCourse> academyCourseQueryWrapper = new QueryWrapper<>();
+        academyCourseQueryWrapper.eq("teacher_id", id);
+        List<AcademyCourse> academyCoursesList = academyCourseMapper.selectList(academyCourseQueryWrapper);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("teacher", academyTeacher);
+        map.put("courseList", academyCoursesList);
+
+        return map;
     }
 }
