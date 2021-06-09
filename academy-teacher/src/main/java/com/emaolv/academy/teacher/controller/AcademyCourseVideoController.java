@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  * 课程视频 前端控制器
@@ -26,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/teacher/video")
 public class AcademyCourseVideoController {
 
-    @Autowired
+    @Resource
     private AcademyCourseVideoService academyCourseVideoService;
 
     @ApiOperation("新增课时")
