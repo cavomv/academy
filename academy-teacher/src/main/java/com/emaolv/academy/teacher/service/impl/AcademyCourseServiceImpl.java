@@ -10,6 +10,7 @@ import com.emaolv.academy.teacher.entity.form.CourseInfoFrom;
 import com.emaolv.academy.teacher.entity.vo.CourseQuery;
 import com.emaolv.academy.teacher.entity.vo.CourseVo;
 import com.emaolv.academy.teacher.entity.vo.WebCourseQueryVo;
+import com.emaolv.academy.teacher.entity.vo.WebCourseVo;
 import com.emaolv.academy.teacher.mapper.AcademyCourseDescriptionMapper;
 import com.emaolv.academy.teacher.mapper.AcademyCourseMapper;
 import com.emaolv.academy.teacher.service.AcademyCourseService;
@@ -153,4 +154,18 @@ public class AcademyCourseServiceImpl extends ServiceImpl<AcademyCourseMapper, A
 
         return baseMapper.selectList(academyCourseQueryWrapper);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public WebCourseVo selectWebCourseVoById(String id) {
+
+        // 获取课程基本信息
+        AcademyCourse academyCourse = baseMapper.selectById(id);
+        // 更新课程浏览量
+        academyCourse.setViewCount(academyCourse.getViewCount()+1);
+        baseMapper.updateById(academyCourse);
+        // 获取课程信息
+       return baseMapper.selectWebCourseVoById(id);
+    }
+
 }
