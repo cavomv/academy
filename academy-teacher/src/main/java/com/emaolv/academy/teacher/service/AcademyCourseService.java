@@ -7,6 +7,7 @@ import com.emaolv.academy.teacher.entity.form.CourseInfoFrom;
 import com.emaolv.academy.teacher.entity.vo.CourseQuery;
 import com.emaolv.academy.teacher.entity.vo.CourseVo;
 import com.emaolv.academy.teacher.entity.vo.WebCourseQueryVo;
+import com.emaolv.academy.teacher.entity.vo.WebCourseVo;
 
 import java.util.List;
 
@@ -29,4 +30,11 @@ public interface AcademyCourseService extends IService<AcademyCourse> {
     IPage<CourseVo> selectPage(long current, long size, CourseQuery courseQuery);
 
     List<AcademyCourse> webPageList(WebCourseQueryVo webCourseQueryVo);
+
+    /**
+     * 获取课程信息并更新浏览量
+     * @param id
+     * @return
+     */
+    WebCourseVo selectWebCourseVoById(String id);
 }
