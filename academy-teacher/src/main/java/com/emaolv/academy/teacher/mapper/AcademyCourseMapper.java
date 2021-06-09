@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.emaolv.academy.teacher.entity.AcademyCourse;
 import com.emaolv.academy.teacher.entity.vo.CourseVo;
+import com.emaolv.academy.teacher.entity.vo.WebCourseVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface AcademyCourseMapper extends BaseMapper<AcademyCourse> {
             Page<CourseVo> courseVoPage,
             @Param(Constants.WRAPPER)
             QueryWrapper<AcademyCourse> academyCourseQueryWrapper);
+
+    WebCourseVo selectWebCourseVoById(String courseId);
 }
