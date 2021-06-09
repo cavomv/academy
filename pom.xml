@@ -7,6 +7,7 @@
         <module>academy-common</module>
         <module>academy-oss</module>
         <module>academy-jwt</module>
+        <module>academy-vod</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -19,7 +20,7 @@
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>academy</name>
-    <description>QA学院</description>
+    <description>SDET社区</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -62,7 +63,6 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-
         </dependency>
     </dependencies>
 
@@ -136,14 +136,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>
